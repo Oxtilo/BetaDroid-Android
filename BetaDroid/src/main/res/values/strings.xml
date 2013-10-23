@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BetaDroid</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_scan_qr_code">Scan QR Code</string>
+    <string name="invalid_qr_code">Invalid QR code!</string>
+
+</resources>
