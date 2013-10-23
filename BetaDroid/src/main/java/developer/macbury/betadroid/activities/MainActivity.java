@@ -1,6 +1,7 @@
 package developer.macbury.betadroid.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -43,10 +44,14 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_scan:
-              IntentIntegrator integrator = new IntentIntegrator(this);
-              integrator.initiateScan();
-              return true;
+          case R.id.action_about:
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Oxtilo/BetaDroid-Server"));
+            startActivity(browserIntent);
+            return true;
+          case R.id.action_scan:
+            IntentIntegrator integrator = new IntentIntegrator(this);
+            integrator.initiateScan();
+            return true;
           case R.id.action_refresh:
             startRefreshService();
             return true;

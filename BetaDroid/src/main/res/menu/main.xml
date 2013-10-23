@@ -11,4 +11,9 @@
           android:icon="@android:drawable/ic_menu_rotate"
           android:orderInCategory="100"
           app:showAsAction="always" />
+    <item android:id="@+id/action_about"
+          android:title="@string/menu_more_info"
+          android:icon="@android:drawable/ic_menu_help"
+          android:orderInCategory="100"
+          app:showAsAction="always" />
 </menu>

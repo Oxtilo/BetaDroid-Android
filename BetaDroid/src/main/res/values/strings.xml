@@ -14,5 +14,6 @@
     <string name="actionbar_subtitle">Touch app to install it</string>
     <string name="notification_new_update_title">There are %1$d apps waiting for update!</string>
     <string name="notification_new_update_content">Touch to start update</string>
+    <string name="menu_more_info">More info</string>
 
 </resources>
