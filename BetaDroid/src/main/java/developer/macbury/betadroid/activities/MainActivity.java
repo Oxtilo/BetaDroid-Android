@@ -47,9 +47,18 @@ public class MainActivity extends ActionBarActivity {
               IntentIntegrator integrator = new IntentIntegrator(this);
               integrator.initiateScan();
               return true;
+          case R.id.action_refresh:
+            startRefreshService();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+  private void startRefreshService() {
+    Intent intent = new Intent(this, UpdateAppInfoService.class);
+    intent.putExtra(UpdateAppInfoService.EXTRA_VERBOSE, true);
+    startService(intent);
+  }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -65,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
         store.add(result);
         store.save(this);
 
-        startService(new Intent(this, UpdateAppInfoService.class));
+        startRefreshService();
       }
     } else {
       super.onActivityResult(requestCode, resultCode, data);
@@ -75,6 +84,8 @@ public class MainActivity extends ActionBarActivity {
   @Override
   protected void onPostResume() {
     super.onPostResume();
-    startService(new Intent(this, UpdateAppInfoService.class));
+    Intent intent = new Intent(this, UpdateAppInfoService.class);
+    intent.putExtra(UpdateAppInfoService.EXTRA_VERBOSE, true);
+    startService(intent);
   }
 }

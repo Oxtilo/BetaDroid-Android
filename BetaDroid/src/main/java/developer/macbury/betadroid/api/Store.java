@@ -1,10 +1,14 @@
 package developer.macbury.betadroid.api;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import developer.macbury.betadroid.Utils;
 import developer.macbury.betadroid.api.v1.ReleaseInfo;
@@ -19,6 +23,10 @@ public class Store {
   public Store() {
     infos    = new ArrayList<ReleaseInfo>();
     barcodes = new ArrayList<BarcodeResult>();
+  }
+
+  public void clearNotes() {
+    infos.clear();
   }
 
   public void add(ReleaseInfo info) {
@@ -68,5 +76,42 @@ public class Store {
     }
 
     barcodes.add(result);
+  }
+
+  public void setInfos(ArrayList<ReleaseInfo> infos) {
+    this.infos = infos;
+  }
+
+  public ArrayList<ReleaseInfo> getInfos() {
+    return infos;
+  }
+
+  public ArrayList<ReleaseInfo> getPendingUpdates(Context context) {
+    ArrayList<ReleaseInfo> out     = new ArrayList<ReleaseInfo>();
+    PackageManager pm              = context.getPackageManager();
+    List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+    for (ReleaseInfo info : infos) {
+      boolean foundPackage = false;
+      for (ApplicationInfo packageInfo : packages) {
+        if (packageInfo.packageName.equalsIgnoreCase(info.getPackageName())) {
+          foundPackage = true;
+          try {
+            PackageInfo pInfo = pm.getPackageInfo(info.getPackageName(), 0);
+            if (pInfo.versionCode < info.getVersionCode()) {
+              out.add(info);
+            }
+          } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+
+      if (!foundPackage) {
+        out.add(info);
+      }
+    }
+
+    return out;
   }
 }

@@ -1,19 +1,22 @@
 package developer.macbury.betadroid.api.v1;
 
+import android.os.Environment;
+
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
+import java.io.File;
 
 /**
  * Created by Arkadiusz on 23.10.13.
  */
 public class ReleaseInfo {
+  private String name;
   @SerializedName("version_code")
   private int versionCode;
   @SerializedName("package")
   private String packageName;
   @SerializedName("build_time")
-  private Date buildTime;
+  private String buildTime;
   private String apk;
   private String icon;
 
@@ -33,11 +36,11 @@ public class ReleaseInfo {
     this.packageName = packageName;
   }
 
-  public Date getBuildTime() {
+  public String getBuildTime() {
     return buildTime;
   }
 
-  public void setBuildTime(Date buildTime) {
+  public void setBuildTime(String buildTime) {
     this.buildTime = buildTime;
   }
 
@@ -65,5 +68,24 @@ public class ReleaseInfo {
     } else {
       return super.equals(o);
     }
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public File getApkFile() {
+    File target = new File(ReleaseInfo.getCacheDir(), this.getVersionCode() + this.getPackageName() + ".apk");
+    return target;
+  }
+
+  public static File getCacheDir() {
+    File cacheDir = new File(Environment.getExternalStorageDirectory() + "/betadroid-cache/");
+    cacheDir.mkdir();
+    return cacheDir;
   }
 }
